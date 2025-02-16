@@ -4,8 +4,9 @@ name: Get Fedora WSL List
 #   schedule:
 #     - cron: '0 0 * * *'
 on:
-  release:
-    types: [updated]
+  push:
+    branches:
+      - main
 
 jobs:
   daily-job:
