@@ -1,0 +1,31 @@
+name: Get Fedora WSL List
+
+# on:
+#   schedule:
+#     - cron: '0 0 * * *'
+on:
+  release:
+    types: [updated]
+
+jobs:
+  daily-job:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Get Docker Brew Fedora List
+        run: |
+          git clone -b master https://github.com/fedora-cloud/docker-brew-fedora docker-brew-fedora
+          cd docker-brew-fedora
+          cp ../get_branches.py .
+          python get_branches.py
+          cd ..
+      
+      - name: Upload Docker Brew Fedora List
+        run: |
+          current_date=$(date +"%Y%m%d")
+          gh release create $current_date --title "$current_date" --notes "$current_date" --repo $GITHUB_REPOSITORY
+          gh release upload $current_date docker_brew_fedora_list.json --repo $GITHUB_REPOSITORY
