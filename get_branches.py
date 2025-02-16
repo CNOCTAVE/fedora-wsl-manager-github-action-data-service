@@ -36,9 +36,9 @@ def main():
                 if docker_brew_fedora is not None:
                     docker_brew_fedora_list.append(
                         {
+                            'name': docker_brew_fedora, 
                             'branch': branch, 
-                            'date': datetime.datetime.date(datetime.datetime.now()).strftime("%Y%m%d"),
-                            'docker_brew_fedora': f'https://raw.githubusercontent.com/fedora-cloud/docker-brew-fedora/refs/heads/41/x86_64/{docker_brew_fedora}'
+                            'docker_brew_fedora': f'https://raw.githubusercontent.com/fedora-cloud/docker-brew-fedora/refs/heads/{branch}/x86_64/{docker_brew_fedora}'
                         })
             except subprocess.CalledProcessError as e:
                 print(f"Cannot get docker_brew_fedora, skip: {e.output}")
